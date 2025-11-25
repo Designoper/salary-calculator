@@ -2,15 +2,16 @@
 	display: grid;
 } */
 
-/* menu {
+menu {
 	display: grid;
-} */
+	gap: 2em;
+}
 
 li {
 	display: grid;
 }
 
-form{
+form {
 	max-width: 500px;
 	margin: auto;
 }
