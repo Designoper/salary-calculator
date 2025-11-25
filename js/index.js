@@ -13,7 +13,7 @@ const DESEMPLEO = 0.0155;
 const FORMACION_PROFESIONAL = 0.001;
 const MECANISMO_EQUIDAD_INTERGENERACIONAL = 0.0013;
 
-// Elementos del DOM
+// Elementos formulario
 
 const BOTON_CALCULAR = document.querySelector('form button');
 const OUTPUT = document.querySelector('form output');
@@ -41,6 +41,15 @@ const calcularSalario = () => {
 
 	const SALARIO_BRUTO = SALARIO_4_HORAS + SALARIO_5_HORAS + SALARIO_6_5_HORAS + SALARIO_7_HORAS + SALARIO_8_HORAS + SALARIO_COACHING + SALARIO_FESTIVO_ESPECIAL + SALARIO_EVENTO;
 
+	const COTIZACION_CONTINGENCIAS_COMUNES = SALARIO_BRUTO * CONTINGENCIAS_COMUNES;
+	const COTIZACION_DESEMPLEO = SALARIO_BRUTO * DESEMPLEO;
+	const COTIZACION_FORMACION_PROFESIONAL = SALARIO_BRUTO * FORMACION_PROFESIONAL;
+	const COTIZACION_MECANISMO_EQUIDAD_INTERGENERACIONAL = SALARIO_BRUTO * MECANISMO_EQUIDAD_INTERGENERACIONAL;
+
+	const TOTAL_COTIZACIONES = COTIZACION_CONTINGENCIAS_COMUNES + COTIZACION_DESEMPLEO + COTIZACION_FORMACION_PROFESIONAL + COTIZACION_MECANISMO_EQUIDAD_INTERGENERACIONAL;
+
+	const SALARIO_NETO = SALARIO_BRUTO - TOTAL_COTIZACIONES;
+
 	OUTPUT.innerHTML =
 		`<p>Salario desglosado:</p>
 
@@ -53,7 +62,17 @@ const calcularSalario = () => {
 			<p>-Festivo especial: ${SALARIO_FESTIVO_ESPECIAL} €.</p>
 			<p>-Eventos: ${SALARIO_EVENTO} €.</p>
 
-			<p>Total: ${SALARIO_BRUTO} €.</p>
+			<p>Salario bruto: ${SALARIO_BRUTO} €.</p>
+
+			<p>--Cotizaciones--</p>
+
+			<p>-Contingencias comunes: -${COTIZACION_CONTINGENCIAS_COMUNES} €.</p>
+			<p>-Desempleo: -${COTIZACION_DESEMPLEO} €.</p>
+			<p>-Formación profesional: -${COTIZACION_FORMACION_PROFESIONAL} €.</p>
+			<p>-Mecanismo de equidad intergeneracional: -${COTIZACION_MECANISMO_EQUIDAD_INTERGENERACIONAL} €.</p>
+			<p>Total cotizaciones: -${TOTAL_COTIZACIONES} €.</p>
+
+			<p>Salario neto: ${SALARIO_NETO} €.</p>
 		`;
 }
 
