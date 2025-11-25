@@ -1,0 +1,63 @@
+* {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	box-sizing: border-box;
+	font: inherit;
+	line-height: 1.5;
+	text-box: trim-both cap alphabetic;
+	text-wrap: pretty;
+	text-align: justify;
+	hyphens: auto;
+	overflow-wrap: break-word;
+	color: inherit;
+	background-color: transparent;
+	break-inside: avoid;
+	flex-wrap: wrap;
+}
+
+html {
+	font-family: 'source-sans-3-regular', sans-serif;
+	interpolate-size: allow-keywords;
+	scrollbar-gutter: stable;
+}
+
+a {
+	text-decoration: none;
+}
+
+:is(ul, ol, menu) {
+	list-style: none;
+}
+
+li {
+	text-wrap: initial;
+}
+
+:is(img, svg, video) {
+	display: block;
+	width: 100%;
+	height: auto;
+}
+
+img {
+	object-fit: cover;
+}
+
+:is(button, summary, select, input[type="file"]) {
+	cursor: pointer;
+}
+
+:is(input, datalist, select, textarea) {
+	width: 100%;
+	text-box: initial;
+}
+
+textarea,
+select {
+	field-sizing: content;
+}
+
+textarea {
+	resize: none;
+}

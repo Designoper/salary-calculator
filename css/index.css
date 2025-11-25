@@ -1,0 +1,16 @@
+/* form {
+	display: grid;
+} */
+
+/* menu {
+	display: grid;
+} */
+
+li {
+	display: grid;
+}
+
+form{
+	max-width: 500px;
+	margin: auto;
+}
