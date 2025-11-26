@@ -6,6 +6,9 @@ const OUTPUT = document.querySelector('form output');
 // MARK: SALARIO BRUTO
 
 const calcularSalarioBruto = () => {
+
+	// Plus adicionales
+
 	const PLUS_FESTIVO_ESPECIAL = PRECIO_HORA * 0.75;
 	const PLUS_NOCTURNIDAD = PRECIO_HORA * 0.75 * 0.25;
 	const PLUS_EVENTO = 3;
