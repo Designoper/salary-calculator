@@ -1,6 +1,6 @@
 const PRECIO_HORA = 10.85;
 
-const BOTON_CALCULAR = document.querySelector('form button');
+const FORM = document.querySelector('form');
 const OUTPUT = document.querySelector('form output');
 
 // MARK: SALARIO BRUTO
@@ -138,4 +138,8 @@ const calcularNomina = () => {
 		`;
 }
 
-BOTON_CALCULAR.onclick = () => calcularNomina();
+FORM.onsubmit = () => {
+	if (FORM.reportValidity()) {
+		calcularNomina();
+	}
+}
