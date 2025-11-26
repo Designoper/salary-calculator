@@ -138,8 +138,4 @@ const calcularNomina = () => {
 		`;
 }
 
-FORM.onsubmit = () => {
-	if (FORM.reportValidity()) {
-		calcularNomina();
-	}
-}
+FORM.onsubmit = () => calcularNomina();
