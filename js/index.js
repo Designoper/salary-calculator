@@ -10,6 +10,8 @@ const calcularSalarioBruto = () => {
 	const PLUS_NOCTURNIDAD = PRECIO_HORA * 0.75 * 0.25;
 	const PLUS_EVENTO = 3;
 
+	// Obtener valores de los inputs
+
 	const TURNOS_4_HORAS = document.getElementById('4-horas');
 	const TURNOS_5_HORAS = document.getElementById('5-horas');
 	const TURNOS_6_5_HORAS = document.getElementById('6.5-horas');
@@ -19,6 +21,8 @@ const calcularSalarioBruto = () => {
 	const COACHING = document.getElementById('coaching');
 	const FESTIVO_ESPECIAL = document.getElementById('festivo-especial');
 	const EVENTO = document.getElementById('evento');
+
+	// Cálculo del salario bruto
 
 	const SALARIO_4_HORAS = TURNOS_4_HORAS.value * PRECIO_HORA * 4;
 	const SALARIO_5_HORAS = TURNOS_5_HORAS.value * PRECIO_HORA * 5;
@@ -51,10 +55,15 @@ const calcularSalarioBruto = () => {
 // MARK: COTIZACIONES
 
 const calcularCotizaciones = (salarioBruto) => {
+
+	// Tasas de cotización
+
 	const CONTINGENCIAS_COMUNES = 0.047;
 	const DESEMPLEO = 0.0155;
 	const FORMACION_PROFESIONAL = 0.001;
 	const MECANISMO_EQUIDAD_INTERGENERACIONAL = 0.0013;
+
+	// Cálculo de cotizaciones
 
 	const COTIZACION_CONTINGENCIAS_COMUNES = salarioBruto * CONTINGENCIAS_COMUNES;
 	const COTIZACION_DESEMPLEO = salarioBruto * DESEMPLEO;
