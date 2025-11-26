@@ -3,6 +3,8 @@ const PRECIO_HORA = 10.85;
 const BOTON_CALCULAR = document.querySelector('form button');
 const OUTPUT = document.querySelector('form output');
 
+// MARK: SALARIO BRUTO
+
 const calcularSalarioBruto = () => {
 	const PLUS_FESTIVO_ESPECIAL = PRECIO_HORA * 0.75;
 	const PLUS_NOCTURNIDAD = PRECIO_HORA * 0.75 * 0.25;
@@ -46,6 +48,8 @@ const calcularSalarioBruto = () => {
 	};
 }
 
+// MARK: COTIZACIONES
+
 const calcularCotizaciones = (salarioBruto) => {
 	const CONTINGENCIAS_COMUNES = 0.047;
 	const DESEMPLEO = 0.0155;
@@ -68,6 +72,8 @@ const calcularCotizaciones = (salarioBruto) => {
 	};
 }
 
+// MARK: VACACIONES
+
 const calcularVacaciones = () => {
 	const DIAS_SEMANA = 7;
 	const DIAS_VACACIONES = document.getElementById('vacaciones');
@@ -85,6 +91,8 @@ const calcularVacaciones = () => {
 
 	return remuneracionVacaciones;
 }
+
+// MARK: NOMINA
 
 const calcularNomina = () => {
 
