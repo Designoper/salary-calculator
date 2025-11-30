@@ -132,30 +132,38 @@ const calcularNomina = () => {
 		`
 			<p>Salario desglosado:</p>
 
+			<p>Turnos laborales:</p>
+
 			<p>-4 horas: ${SALARIO_BRUTO.SALARIO_4_HORAS} €.</p>
 			<p>-5 horas: ${SALARIO_BRUTO.SALARIO_5_HORAS} €.</p>
 			<p>-6.5 horas: ${SALARIO_BRUTO.SALARIO_6_5_HORAS} €.</p>
 			<p>-7 horas: ${SALARIO_BRUTO.SALARIO_7_HORAS} €.</p>
 			<p>-8 horas: ${SALARIO_BRUTO.SALARIO_8_HORAS} €.</p>
 			<p>-8.25 horas: ${SALARIO_BRUTO.SALARIO_8_25_HORAS} €.</p>
-			<p>-Coaching: ${SALARIO_BRUTO.SALARIO_COACHING} €.</p>
-			<p>-Formación: ${SALARIO_BRUTO.SALARIO_FORMACION} €.</p>
+
+			<p>Pluses:</p>
+
 			<p>-Plus nocturnidad: ${SALARIO_BRUTO.SALARIO_NOCTURNIDAD} €.</p>
 			<p>-Plus afluencia: ${SALARIO_BRUTO.SALARIO_AFLUENCIA} €.</p>
 			<p>-Festivos: ${SALARIO_BRUTO.SALARIO_FESTIVO} €.</p>
 			<p>-Festivos especiales: ${SALARIO_BRUTO.SALARIO_FESTIVO_ESPECIAL} €.</p>
+
+			<p>Otros conceptos:</p>
+
+			<p>-Coaching: ${SALARIO_BRUTO.SALARIO_COACHING} €.</p>
+			<p>-Formación: ${SALARIO_BRUTO.SALARIO_FORMACION} €.</p>
 			<p>-Eventos: ${SALARIO_BRUTO.SALARIO_EVENTO} €.</p>
-			<p>-Vacaciones: ${SALARIO_BRUTO.VACACIONES} €.</p>
+			<p>-Vacaciones: ${SALARIO_BRUTO.SALARIO_VACACIONES} €.</p>
 
 			<p>Salario bruto: ${SALARIO_BRUTO.SALARIO_BRUTO} €.</p>
 
-			<p>--Cotizaciones--</p>
+			<p>Cotizaciones</p>
 
 			<p>-Contingencias comunes: -${COTIZACION.CONTINGENCIAS_COMUNES} €.</p>
 			<p>-Desempleo: -${COTIZACION.DESEMPLEO} €.</p>
 			<p>-Formación profesional: -${COTIZACION.FORMACION_PROFESIONAL} €.</p>
 			<p>-Mecanismo de equidad intergeneracional: -${COTIZACION.MECANISMO_EQUIDAD_INTERGENERACIONAL} €.</p>
-			<p>Total cotizaciones: -${COTIZACION.TOTAL} €.</p>
+			<p>-Total: -${COTIZACION.TOTAL} €.</p>
 
 			<p>Salario neto: ${SALARIO_NETO} €.</p>
 		`;
