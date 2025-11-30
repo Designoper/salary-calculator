@@ -21,6 +21,7 @@ input {
 
 form {
 	display: grid;
+	gap: 1em;
 	max-width: 300px;
 	padding: 1em;
 	margin: auto;
@@ -32,7 +33,7 @@ button {
 	justify-self: center;
 	padding: 1em;
 	border-radius: 1em;
-	background-color: blue;
+	background-color: rgb(24, 201, 255);
 }
 
 output {
