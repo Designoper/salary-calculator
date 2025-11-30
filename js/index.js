@@ -27,10 +27,10 @@ const redondearDosDecimales = (num) => Math.round(num * 100) / 100;
 
 // Plus adicionales
 
-const PLUS_FESTIVO = redondearDosDecimales(PRECIO_HORA * 0.25);
-const PLUS_FESTIVO_ESPECIAL = redondearDosDecimales(PRECIO_HORA * 0.75);
-const PLUS_NOCTURNIDAD = redondearDosDecimales(PRECIO_HORA * 0.25);
-const PLUS_AFLUENCIA = redondearDosDecimales(PRECIO_HORA * 0.5);
+const PLUS_FESTIVO = PRECIO_HORA * 0.25;
+const PLUS_FESTIVO_ESPECIAL = PRECIO_HORA * 0.75;
+const PLUS_NOCTURNIDAD = PRECIO_HORA * 0.25;
+const PLUS_AFLUENCIA = PRECIO_HORA * 0.5;
 const PLUS_EVENTO = 3;
 
 // Tasas de cotización
@@ -42,56 +42,65 @@ const PORCENTAJE_MECANISMO_EQUIDAD_INTERGENERACIONAL = 0.0013;
 
 const DIAS_SEMANA = 7;
 
+// MARK: VACACIONES
 
+const calcularVacaciones = () => {
+	const HORAS_VACACIONES = HORAS_SEMANA_CONTRATO.value / DIAS_SEMANA * DIAS_VACACIONES.value;
+
+	let remuneracionVacaciones;
+
+	DIAS_VACACIONES.value === "" || DIAS_VACACIONES.value === 0
+		? remuneracionVacaciones = 0
+		: remuneracionVacaciones = HORAS_VACACIONES * PRECIO_HORA;
+
+	return remuneracionVacaciones;
+}
 
 // MARK: SALARIO BRUTO
 
 const calcularSalarioBruto = () => {
 
-	const SALARIO_4_HORAS = redondearDosDecimales(TURNOS_4_HORAS.value * PRECIO_HORA * 4);
-	const SALARIO_5_HORAS = redondearDosDecimales(TURNOS_5_HORAS.value * PRECIO_HORA * 5);
-	const SALARIO_6_5_HORAS = redondearDosDecimales(TURNOS_6_5_HORAS.value * PRECIO_HORA * 6.5);
-	const SALARIO_7_HORAS = redondearDosDecimales(TURNOS_7_HORAS.value * PRECIO_HORA * 7);
-	const SALARIO_8_HORAS = redondearDosDecimales(TURNOS_8_HORAS.value * PRECIO_HORA * 8);
-	const SALARIO_8_25_HORAS = redondearDosDecimales(TURNOS_8_25_HORAS.value * PRECIO_HORA * 8.25);
+	// const SALARIO_4_HORAS = TURNOS_4_HORAS.value * PRECIO_HORA * 4;
+	// const SALARIO_5_HORAS = TURNOS_5_HORAS.value * PRECIO_HORA * 5;
+	// const SALARIO_6_5_HORAS = TURNOS_6_5_HORAS.value * PRECIO_HORA * 6.5;
+	// const SALARIO_7_HORAS = TURNOS_7_HORAS.value * PRECIO_HORA * 7;
+	// const SALARIO_8_HORAS = TURNOS_8_HORAS.value * PRECIO_HORA * 8;
+	// const SALARIO_8_25_HORAS = TURNOS_8_25_HORAS.value * PRECIO_HORA * 8.25;
 
 	const SALARIO_COACHING = redondearDosDecimales(COACHING.value * PRECIO_HORA);
-	const SALARIO_FORMACION = redondearDosDecimales(FORMACION.value * PRECIO_HORA);
-	const SALARIO_EVENTO = redondearDosDecimales(EVENTO.value * PRECIO_HORA + PLUS_EVENTO * EVENTO.value);
-	const SALARIO_AJUSTES = redondearDosDecimales(AJUSTES.value);
+	const SALARIO_FORMACION = FORMACION.value * PRECIO_HORA;
+	const SALARIO_EVENTO = EVENTO.value * PRECIO_HORA + PLUS_EVENTO * EVENTO.value;
+	const SALARIO_AJUSTES = Number(AJUSTES.value);
 
 	const SALARIO_NOCTURNIDAD = redondearDosDecimales(TURNOS_8_HORAS.value * PLUS_NOCTURNIDAD * 0.75 + TURNOS_8_25_HORAS.value * PLUS_NOCTURNIDAD);
-	const SALARIO_AFLUENCIA = redondearDosDecimales(HORAS_AFLUENCIA.value * PLUS_AFLUENCIA);
-	const SALARIO_FESTIVO = redondearDosDecimales(PLUS_FESTIVO * FESTIVO.value);
+	const SALARIO_AFLUENCIA = HORAS_AFLUENCIA.value * PLUS_AFLUENCIA;
+	const SALARIO_FESTIVO = PLUS_FESTIVO * FESTIVO.value;
 	const SALARIO_FESTIVO_ESPECIAL = redondearDosDecimales(PLUS_FESTIVO_ESPECIAL * FESTIVO_ESPECIAL.value);
 
 	const SALARIO_VACACIONES = calcularVacaciones();
 
+	const HORAS_LABORALES = redondearDosDecimales(
+		((TURNOS_4_HORAS.value * 4) +
+		(TURNOS_5_HORAS.value * 5) +
+		(TURNOS_6_5_HORAS.value * 6.5) +
+		(TURNOS_7_HORAS.value * 7) +
+		(TURNOS_8_HORAS.value * 8) +
+		(TURNOS_8_25_HORAS.value * 8.25)) * PRECIO_HORA);
+
 	const SALARIO_BRUTO =
-		redondearDosDecimales(
-			SALARIO_4_HORAS +
-			SALARIO_5_HORAS +
-			SALARIO_6_5_HORAS +
-			SALARIO_7_HORAS +
-			SALARIO_8_HORAS +
-			SALARIO_8_25_HORAS +
-			SALARIO_COACHING +
-			SALARIO_FORMACION +
-			SALARIO_NOCTURNIDAD +
-			SALARIO_AFLUENCIA +
-			SALARIO_FESTIVO +
-			SALARIO_FESTIVO_ESPECIAL +
-			SALARIO_EVENTO +
-			SALARIO_AJUSTES +
-			SALARIO_VACACIONES);
+		HORAS_LABORALES +
+		SALARIO_COACHING +
+		SALARIO_FORMACION +
+		SALARIO_NOCTURNIDAD +
+		SALARIO_AFLUENCIA +
+		SALARIO_FESTIVO +
+		SALARIO_FESTIVO_ESPECIAL +
+		SALARIO_EVENTO +
+		SALARIO_AJUSTES +
+		SALARIO_VACACIONES;
 
 	return {
-		SALARIO_4_HORAS,
-		SALARIO_5_HORAS,
-		SALARIO_6_5_HORAS,
-		SALARIO_7_HORAS,
-		SALARIO_8_HORAS,
-		SALARIO_8_25_HORAS,
+		HORAS_LABORALES,
 		SALARIO_COACHING,
 		SALARIO_FORMACION,
 		SALARIO_NOCTURNIDAD,
@@ -109,17 +118,16 @@ const calcularSalarioBruto = () => {
 
 const calcularCotizaciones = (salarioBruto) => {
 
-	const CONTINGENCIAS_COMUNES = redondearDosDecimales(salarioBruto * PORCENTAJE_CONTINGENCIAS_COMUNES);
-	const DESEMPLEO = redondearDosDecimales(salarioBruto * PORCENTAJE_DESEMPLEO);
-	const FORMACION_PROFESIONAL = redondearDosDecimales(salarioBruto * PORCENTAJE_FORMACION_PROFESIONAL);
-	const MECANISMO_EQUIDAD_INTERGENERACIONAL = redondearDosDecimales(salarioBruto * PORCENTAJE_MECANISMO_EQUIDAD_INTERGENERACIONAL);
+	const CONTINGENCIAS_COMUNES = salarioBruto * PORCENTAJE_CONTINGENCIAS_COMUNES;
+	const DESEMPLEO = salarioBruto * PORCENTAJE_DESEMPLEO;
+	const FORMACION_PROFESIONAL = salarioBruto * PORCENTAJE_FORMACION_PROFESIONAL;
+	const MECANISMO_EQUIDAD_INTERGENERACIONAL = salarioBruto * PORCENTAJE_MECANISMO_EQUIDAD_INTERGENERACIONAL;
 
 	const TOTAL =
-		redondearDosDecimales(
-			CONTINGENCIAS_COMUNES +
-			DESEMPLEO +
-			FORMACION_PROFESIONAL +
-			MECANISMO_EQUIDAD_INTERGENERACIONAL);
+		CONTINGENCIAS_COMUNES +
+		DESEMPLEO +
+		FORMACION_PROFESIONAL +
+		MECANISMO_EQUIDAD_INTERGENERACIONAL;
 
 	return {
 		CONTINGENCIAS_COMUNES,
@@ -130,20 +138,6 @@ const calcularCotizaciones = (salarioBruto) => {
 	};
 }
 
-// MARK: VACACIONES
-
-const calcularVacaciones = () => {
-	const HORAS_VACACIONES = redondearDosDecimales(HORAS_SEMANA_CONTRATO.value / DIAS_SEMANA * DIAS_VACACIONES.value);
-
-	let remuneracionVacaciones;
-
-	DIAS_VACACIONES.value === 0
-		? remuneracionVacaciones = 0
-		: remuneracionVacaciones = redondearDosDecimales(HORAS_VACACIONES * PRECIO_HORA);
-
-	return remuneracionVacaciones;
-}
-
 // MARK: NOMINA
 
 const calcularNomina = () => {
@@ -152,18 +146,11 @@ const calcularNomina = () => {
 
 	const COTIZACION = calcularCotizaciones(SALARIO_BRUTO.SALARIO_BRUTO);
 
-	const SALARIO_NETO = redondearDosDecimales(SALARIO_BRUTO.SALARIO_BRUTO - COTIZACION.TOTAL);
+	const SALARIO_NETO = SALARIO_BRUTO.SALARIO_BRUTO - COTIZACION.TOTAL;
 
 	OUTPUT.innerHTML =
 		`
-			<h2>Turnos laborales:</h2>
-
-			<p>-4 horas: ${SALARIO_BRUTO.SALARIO_4_HORAS} €.</p>
-			<p>-5 horas: ${SALARIO_BRUTO.SALARIO_5_HORAS} €.</p>
-			<p>-6.5 horas: ${SALARIO_BRUTO.SALARIO_6_5_HORAS} €.</p>
-			<p>-7 horas: ${SALARIO_BRUTO.SALARIO_7_HORAS} €.</p>
-			<p>-8 horas: ${SALARIO_BRUTO.SALARIO_8_HORAS} €.</p>
-			<p>-8.25 horas: ${SALARIO_BRUTO.SALARIO_8_25_HORAS} €.</p>
+			<h2>-Horas laborales: ${SALARIO_BRUTO.HORAS_LABORALES} €.</h2>
 
 			<h2>Pluses:</h2>
 
