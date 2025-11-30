@@ -9,9 +9,22 @@ menu {
 
 li {
 	display: grid;
+	/* background-color: gray; */
+}
+
+legend {
+	font-weight: bold;
+	font-size: 1.2em;
+	margin-bottom: 0.5em;
+}
+
+input {
+	background-color: gray;
+	padding: 0.5em 1em;
+
 }
 
 form {
-	max-width: 500px;
+	max-width: 300px;
 	margin: auto;
 }
