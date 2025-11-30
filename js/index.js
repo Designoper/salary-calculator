@@ -150,7 +150,7 @@ const calcularNomina = () => {
 
 	OUTPUT.innerHTML =
 		`
-			<h2>-Horas laborales: ${SALARIO_BRUTO.HORAS_LABORALES} €.</h2>
+			<h2>Horas laborales: ${SALARIO_BRUTO.HORAS_LABORALES} €.</h2>
 
 			<h2>Pluses:</h2>
 
