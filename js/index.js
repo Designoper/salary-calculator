@@ -18,6 +18,7 @@ const FESTIVO = document.getElementById('festivo');
 const FESTIVO_ESPECIAL = document.getElementById('festivo-especial');
 const EVENTO = document.getElementById('evento');
 const FORMACION = document.getElementById('formacion');
+const AJUSTES = document.getElementById('ajustes');
 
 const DIAS_VACACIONES = document.getElementById('vacaciones');
 const HORAS_SEMANA_CONTRATO = document.getElementById('horas-semana');
@@ -57,6 +58,7 @@ const calcularSalarioBruto = () => {
 	const SALARIO_COACHING = redondearDosDecimales(COACHING.value * PRECIO_HORA);
 	const SALARIO_FORMACION = redondearDosDecimales(FORMACION.value * PRECIO_HORA);
 	const SALARIO_EVENTO = redondearDosDecimales(EVENTO.value * PRECIO_HORA + PLUS_EVENTO * EVENTO.value);
+	const SALARIO_AJUSTES = redondearDosDecimales(AJUSTES.value);
 
 	const SALARIO_NOCTURNIDAD = redondearDosDecimales(TURNOS_8_HORAS.value * PLUS_NOCTURNIDAD * 0.75 + TURNOS_8_25_HORAS.value * PLUS_NOCTURNIDAD);
 	const SALARIO_AFLUENCIA = redondearDosDecimales(HORAS_AFLUENCIA.value * PLUS_AFLUENCIA);
@@ -80,6 +82,7 @@ const calcularSalarioBruto = () => {
 			SALARIO_FESTIVO +
 			SALARIO_FESTIVO_ESPECIAL +
 			SALARIO_EVENTO +
+			SALARIO_AJUSTES +
 			SALARIO_VACACIONES);
 
 	return {
@@ -96,6 +99,7 @@ const calcularSalarioBruto = () => {
 		SALARIO_FESTIVO,
 		SALARIO_FESTIVO_ESPECIAL,
 		SALARIO_EVENTO,
+		SALARIO_AJUSTES,
 		SALARIO_VACACIONES,
 		SALARIO_BRUTO
 	};
@@ -174,6 +178,7 @@ const calcularNomina = () => {
 			<p>-Formación: ${SALARIO_BRUTO.SALARIO_FORMACION} €.</p>
 			<p>-Eventos: ${SALARIO_BRUTO.SALARIO_EVENTO} €.</p>
 			<p>-Vacaciones: ${SALARIO_BRUTO.SALARIO_VACACIONES} €.</p>
+			<p>-Ajustes salariales: ${SALARIO_BRUTO.SALARIO_AJUSTES} €.</p>
 
 			<h2>Salario bruto: ${SALARIO_BRUTO.SALARIO_BRUTO} €.</h2>
 
