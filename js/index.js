@@ -170,7 +170,7 @@ const calcularNomina = () => {
 			<p>-Eventos: ${SALARIO_BRUTO.SALARIO_EVENTO} €.</p>
 			<p>-Vacaciones: ${SALARIO_BRUTO.SALARIO_VACACIONES} €.</p>
 
-			<p>Salario bruto: ${SALARIO_BRUTO.SALARIO_BRUTO} €.</p>
+			<h2>Salario bruto: ${SALARIO_BRUTO.SALARIO_BRUTO} €.</h2>
 
 			<h2>Cotizaciones:</h2>
 
@@ -178,9 +178,10 @@ const calcularNomina = () => {
 			<p>-Desempleo: -${COTIZACION.DESEMPLEO} €.</p>
 			<p>-Formación profesional: -${COTIZACION.FORMACION_PROFESIONAL} €.</p>
 			<p>-Mecanismo de equidad intergeneracional: -${COTIZACION.MECANISMO_EQUIDAD_INTERGENERACIONAL} €.</p>
-			<p>-Total cotizaciones: -${COTIZACION.TOTAL} €.</p>
 
-			<p>Salario neto: ${SALARIO_NETO} €.</p>
+			<h2>Deducciones: -${COTIZACION.TOTAL} €.</h2>
+
+			<h2>Salario neto: ${SALARIO_NETO} €.</h2>
 		`;
 }
 
