@@ -13,7 +13,6 @@ const TURNOS_8_HORAS = document.getElementById('8-horas');
 const TURNOS_8_25_HORAS = document.getElementById('8.25-horas');
 const HORAS_AFLUENCIA = document.getElementById('plus-afluencia');
 
-const COACHING = document.getElementById('coaching');
 const FESTIVO = document.getElementById('festivo');
 const FESTIVO_ESPECIAL = document.getElementById('festivo-especial');
 const EVENTO = document.getElementById('evento');
@@ -35,10 +34,12 @@ const PLUS_EVENTO = 3;
 
 // Tasas de cotización
 
-const PORCENTAJE_CONTINGENCIAS_COMUNES = 0.047;
-const PORCENTAJE_MECANISMO_EQUIDAD_INTERGENERACIONAL = 0.0013;
-const PORCENTAJE_FORMACION_PROFESIONAL = 0.001;
-const PORCENTAJE_DESEMPLEO = 0.0155;
+const PORCENTAJE_COTIZACION = {
+	CONTINGENCIAS_COMUNES: 0.047,
+	MECANISMO_EQUIDAD_INTERGENERACIONAL: 0.0013,
+	FORMACION_PROFESIONAL: 0.001,
+	DESEMPLEO: 0.0155
+}
 
 const DIAS_SEMANA = 7;
 
@@ -67,7 +68,7 @@ const calcularSalarioBruto = () => {
 	// const SALARIO_8_HORAS = TURNOS_8_HORAS.value * PRECIO_HORA * 8;
 	// const SALARIO_8_25_HORAS = TURNOS_8_25_HORAS.value * PRECIO_HORA * 8.25;
 
-	const SALARIO_COACHING = redondearDosDecimales(COACHING.value * PRECIO_HORA);
+	const SALARIO_COACHING = PRECIO_HORA;
 	const SALARIO_FORMACION = FORMACION.value * PRECIO_HORA;
 	const SALARIO_EVENTO = EVENTO.value * PRECIO_HORA + PLUS_EVENTO * EVENTO.value;
 	const SALARIO_AJUSTES = Number(AJUSTES.value);
@@ -118,10 +119,10 @@ const calcularSalarioBruto = () => {
 
 const calcularCotizaciones = (salarioBruto) => {
 
-	const CONTINGENCIAS_COMUNES = salarioBruto * PORCENTAJE_CONTINGENCIAS_COMUNES;
-	const MECANISMO_EQUIDAD_INTERGENERACIONAL = salarioBruto * PORCENTAJE_MECANISMO_EQUIDAD_INTERGENERACIONAL;
-	const FORMACION_PROFESIONAL = salarioBruto * PORCENTAJE_FORMACION_PROFESIONAL;
-	const DESEMPLEO = salarioBruto * PORCENTAJE_DESEMPLEO;
+	const CONTINGENCIAS_COMUNES = salarioBruto * PORCENTAJE_COTIZACION.CONTINGENCIAS_COMUNES;
+	const MECANISMO_EQUIDAD_INTERGENERACIONAL = salarioBruto * PORCENTAJE_COTIZACION.MECANISMO_EQUIDAD_INTERGENERACIONAL;
+	const FORMACION_PROFESIONAL = salarioBruto * PORCENTAJE_COTIZACION.FORMACION_PROFESIONAL;
+	const DESEMPLEO = salarioBruto * PORCENTAJE_COTIZACION.DESEMPLEO;
 
 	const TOTAL =
 		CONTINGENCIAS_COMUNES +
