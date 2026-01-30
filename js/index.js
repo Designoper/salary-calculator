@@ -1,7 +1,4 @@
-const FORM = document.querySelector('form');
-
 const createNomina = () => ({
-
 	PRECIO_HORA: 10.85,
 
 	TURNOS: {
@@ -188,4 +185,5 @@ const calcularNomina = () => {
 	Nomina.calcular();
 };
 
+const FORM = document.querySelector('form');
 FORM.onsubmit = () => calcularNomina();
