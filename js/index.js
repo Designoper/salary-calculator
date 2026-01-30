@@ -1,4 +1,4 @@
-const createNomina = () => ({
+const Nomina = () => ({
 	PRECIO_HORA: 10.85,
 
 	TURNOS: {
@@ -25,13 +25,15 @@ const createNomina = () => ({
 		EVENTO: 3
 	},
 
-	HORAS_AFLUENCIA: Number(document.getElementById('plus-afluencia').value),
+	HORAS: {
+		FESTIVO: Number(document.getElementById('festivo').value),
+		FESTIVO_ESPECIAL: Number(document.getElementById('festivo-especial').value),
+		AFLUENCIA: Number(document.getElementById('plus-afluencia').value),
+		EVENTO: Number(document.getElementById('evento').value),
+		FORMACION: Number(document.getElementById('formacion').value),
+	},
 
-	FESTIVO: Number(document.getElementById('festivo').value),
-	FESTIVO_ESPECIAL: Number(document.getElementById('festivo-especial').value),
-	EVENTO: Number(document.getElementById('evento').value),
-	FORMACION: Number(document.getElementById('formacion').value),
-	AJUSTES: Number(document.getElementById('ajustes').value),
+	AJUSTES_SALARIALES: Number(document.getElementById('ajustes').value),
 
 	OUTPUT: document.querySelector('output'),
 
@@ -80,15 +82,15 @@ const createNomina = () => ({
 
 	calcularSalarioBruto() {
 		this.SALARIO_BRUTO.COACHING = this.PRECIO_HORA;
-		this.SALARIO_BRUTO.FORMACION = this.FORMACION * this.PRECIO_HORA;
-		this.SALARIO_BRUTO.EVENTO = this.EVENTO * this.PRECIO_HORA + this.PLUS.EVENTO * this.EVENTO;
-		this.SALARIO_BRUTO.AJUSTES = this.AJUSTES;
+		this.SALARIO_BRUTO.FORMACION = this.HORAS.FORMACION * this.PRECIO_HORA;
+		this.SALARIO_BRUTO.EVENTO = this.HORAS.EVENTO * this.PRECIO_HORA + this.PLUS.EVENTO * this.HORAS.EVENTO;
+		this.SALARIO_BRUTO.AJUSTES = this.AJUSTES_SALARIALES;
 		this.SALARIO_BRUTO.NOCTURNIDAD =
 			this.TURNOS.OCHO_HORAS * this.PLUS.NOCTURNIDAD * 0.75 +
 			this.TURNOS.OCHO_Y_CUARTO_HORAS * this.PLUS.NOCTURNIDAD;
-		this.SALARIO_BRUTO.AFLUENCIA = this.HORAS_AFLUENCIA * this.PLUS.AFLUENCIA;
-		this.SALARIO_BRUTO.FESTIVO = this.PLUS.FESTIVO * this.FESTIVO;
-		this.SALARIO_BRUTO.FESTIVO_ESPECIAL = this.PLUS.FESTIVO_ESPECIAL * this.FESTIVO_ESPECIAL;
+		this.SALARIO_BRUTO.AFLUENCIA = this.HORAS.AFLUENCIA * this.PLUS.AFLUENCIA;
+		this.SALARIO_BRUTO.FESTIVO = this.PLUS.FESTIVO * this.HORAS.FESTIVO;
+		this.SALARIO_BRUTO.FESTIVO_ESPECIAL = this.PLUS.FESTIVO_ESPECIAL * this.HORAS.FESTIVO_ESPECIAL;
 		this.SALARIO_BRUTO.VACACIONES = this.VACACIONES.TOTAL;
 		this.SALARIO_BRUTO.HORAS_LABORALES =
 			(
@@ -181,8 +183,8 @@ const createNomina = () => ({
 });
 
 const calcularNomina = () => {
-	const Nomina = createNomina();
-	Nomina.calcular();
+	const nomina = Nomina();
+	nomina.calcular();
 };
 
 const FORM = document.querySelector('form');
