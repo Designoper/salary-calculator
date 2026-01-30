@@ -1,17 +1,19 @@
 const PRECIO_HORA = 10.85;
 
 const FORM = document.querySelector('form');
-const OUTPUT = document.querySelector('form output');
+const OUTPUT = FORM.querySelector('output');
 
-// Obtener valores de los inputs
-
-const TURNOS_4_HORAS = document.getElementById('4-horas');
-const TURNOS_5_HORAS = document.getElementById('5-horas');
-const TURNOS_6_5_HORAS = document.getElementById('6.5-horas');
-const TURNOS_7_HORAS = document.getElementById('7-horas');
-const TURNOS_8_HORAS = document.getElementById('8-horas');
-const TURNOS_8_25_HORAS = document.getElementById('8.25-horas');
+// Obtener elementos de inputs
 const HORAS_AFLUENCIA = document.getElementById('plus-afluencia');
+
+const TURNOS = {
+	CUATRO_HORAS: document.getElementById('4-horas'),
+	CINCO_HORAS: document.getElementById('5-horas'),
+	SEIS_Y_MEDIA_HORAS: document.getElementById('6.5-horas'),
+	SIETE_HORAS: document.getElementById('7-horas'),
+	OCHO_HORAS: document.getElementById('8-horas'),
+	OCHO_Y_CUARTO_HORAS: document.getElementById('8.25-horas'),
+}
 
 const FESTIVO = document.getElementById('festivo');
 const FESTIVO_ESPECIAL = document.getElementById('festivo-especial');
@@ -22,15 +24,24 @@ const AJUSTES = document.getElementById('ajustes');
 const DIAS_VACACIONES = document.getElementById('vacaciones');
 const HORAS_SEMANA_CONTRATO = document.getElementById('horas-semana');
 
-const redondearDosDecimales = (num) => Math.round(num * 100) / 100;
+// Helpers: parse numeric input safely and round/format values
+const getNumber = (el) => {
+	if (!el) return 0;
+	const v = parseFloat(el.value);
+	return Number.isFinite(v) ? v : 0;
+};
+
+const roundTwo = (num) => Number((num || 0).toFixed(2));
 
 // Plus adicionales
 
-const PLUS_FESTIVO = PRECIO_HORA * 0.25;
-const PLUS_FESTIVO_ESPECIAL = PRECIO_HORA * 0.75;
-const PLUS_NOCTURNIDAD = PRECIO_HORA * 0.25;
-const PLUS_AFLUENCIA = PRECIO_HORA * 0.5;
-const PLUS_EVENTO = 3;
+const PLUS = {
+	FESTIVO: PRECIO_HORA * 0.25,
+	FESTIVO_ESPECIAL: PRECIO_HORA * 0.75,
+	NOCTURNIDAD: PRECIO_HORA * 0.25,
+	AFLUENCIA: PRECIO_HORA * 0.5,
+	EVENTO: 3
+}
 
 // Tasas de cotización
 
@@ -46,141 +57,118 @@ const DIAS_SEMANA = 7;
 // MARK: VACACIONES
 
 const calcularVacaciones = () => {
-	const HORAS_VACACIONES = HORAS_SEMANA_CONTRATO.value / DIAS_SEMANA * DIAS_VACACIONES.value;
-
-	let remuneracionVacaciones;
-
-	DIAS_VACACIONES.value === "" || DIAS_VACACIONES.value === 0
-		? remuneracionVacaciones = 0
-		: remuneracionVacaciones = HORAS_VACACIONES * PRECIO_HORA;
-
-	return remuneracionVacaciones;
-}
+	const dias = getNumber(DIAS_VACACIONES);
+	if (dias === 0) return 0;
+	const horasSemana = getNumber(HORAS_SEMANA_CONTRATO);
+	const horasVacaciones = (horasSemana / DIAS_SEMANA) * dias;
+	return roundTwo(horasVacaciones * PRECIO_HORA);
+};
 
 // MARK: SALARIO BRUTO
 
 const calcularSalarioBruto = () => {
+	const SALARIO_BRUTO = {
+		COACHING: PRECIO_HORA,
+		FORMACION: roundTwo(getNumber(FORMACION) * PRECIO_HORA),
+		EVENTO: roundTwo(getNumber(EVENTO) * PRECIO_HORA + PLUS.EVENTO * getNumber(EVENTO)),
+		AJUSTES: roundTwo(getNumber(AJUSTES)),
+		NOCTURNIDAD: roundTwo(
+			getNumber(TURNOS.OCHO_HORAS) * PLUS.NOCTURNIDAD * 0.75 +
+			getNumber(TURNOS.OCHO_Y_CUARTO_HORAS) * PLUS.NOCTURNIDAD
+		),
+		AFLUENCIA: roundTwo(getNumber(HORAS_AFLUENCIA) * PLUS.AFLUENCIA),
+		FESTIVO: roundTwo(PLUS.FESTIVO * getNumber(FESTIVO)),
+		FESTIVO_ESPECIAL: roundTwo(PLUS.FESTIVO_ESPECIAL * getNumber(FESTIVO_ESPECIAL)),
+		VACACIONES: calcularVacaciones(),
+		HORAS_LABORALES: roundTwo(
+			(
+				(getNumber(TURNOS.CUATRO_HORAS) * 4) +
+				(getNumber(TURNOS.CINCO_HORAS) * 5) +
+				(getNumber(TURNOS.SEIS_Y_MEDIA_HORAS) * 6.5) +
+				(getNumber(TURNOS.SIETE_HORAS) * 7) +
+				(getNumber(TURNOS.OCHO_HORAS) * 8) +
+				(getNumber(TURNOS.OCHO_Y_CUARTO_HORAS) * 8.25)
+			) * PRECIO_HORA
+		),
+		total() {
+			return (
+				this.COACHING +
+				this.FORMACION +
+				this.EVENTO +
+				this.AJUSTES +
+				this.NOCTURNIDAD +
+				this.AFLUENCIA +
+				this.FESTIVO +
+				this.FESTIVO_ESPECIAL +
+				this.VACACIONES +
+				this.HORAS_LABORALES
+			);
+		}
+	}
 
-	// const SALARIO_4_HORAS = TURNOS_4_HORAS.value * PRECIO_HORA * 4;
-	// const SALARIO_5_HORAS = TURNOS_5_HORAS.value * PRECIO_HORA * 5;
-	// const SALARIO_6_5_HORAS = TURNOS_6_5_HORAS.value * PRECIO_HORA * 6.5;
-	// const SALARIO_7_HORAS = TURNOS_7_HORAS.value * PRECIO_HORA * 7;
-	// const SALARIO_8_HORAS = TURNOS_8_HORAS.value * PRECIO_HORA * 8;
-	// const SALARIO_8_25_HORAS = TURNOS_8_25_HORAS.value * PRECIO_HORA * 8.25;
-
-	const SALARIO_COACHING = PRECIO_HORA;
-	const SALARIO_FORMACION = FORMACION.value * PRECIO_HORA;
-	const SALARIO_EVENTO = EVENTO.value * PRECIO_HORA + PLUS_EVENTO * EVENTO.value;
-	const SALARIO_AJUSTES = Number(AJUSTES.value);
-
-	const SALARIO_NOCTURNIDAD = redondearDosDecimales(TURNOS_8_HORAS.value * PLUS_NOCTURNIDAD * 0.75 + TURNOS_8_25_HORAS.value * PLUS_NOCTURNIDAD);
-	const SALARIO_AFLUENCIA = HORAS_AFLUENCIA.value * PLUS_AFLUENCIA;
-	const SALARIO_FESTIVO = PLUS_FESTIVO * FESTIVO.value;
-	const SALARIO_FESTIVO_ESPECIAL = redondearDosDecimales(PLUS_FESTIVO_ESPECIAL * FESTIVO_ESPECIAL.value);
-
-	const SALARIO_VACACIONES = calcularVacaciones();
-
-	const HORAS_LABORALES = redondearDosDecimales(
-		((TURNOS_4_HORAS.value * 4) +
-		(TURNOS_5_HORAS.value * 5) +
-		(TURNOS_6_5_HORAS.value * 6.5) +
-		(TURNOS_7_HORAS.value * 7) +
-		(TURNOS_8_HORAS.value * 8) +
-		(TURNOS_8_25_HORAS.value * 8.25)) * PRECIO_HORA);
-
-	const SALARIO_BRUTO =
-		HORAS_LABORALES +
-		SALARIO_COACHING +
-		SALARIO_FORMACION +
-		SALARIO_NOCTURNIDAD +
-		SALARIO_AFLUENCIA +
-		SALARIO_FESTIVO +
-		SALARIO_FESTIVO_ESPECIAL +
-		SALARIO_EVENTO +
-		SALARIO_AJUSTES +
-		SALARIO_VACACIONES;
-
-	return {
-		HORAS_LABORALES,
-		SALARIO_COACHING,
-		SALARIO_FORMACION,
-		SALARIO_NOCTURNIDAD,
-		SALARIO_AFLUENCIA,
-		SALARIO_FESTIVO,
-		SALARIO_FESTIVO_ESPECIAL,
-		SALARIO_EVENTO,
-		SALARIO_AJUSTES,
-		SALARIO_VACACIONES,
-		SALARIO_BRUTO
-	};
-}
+	return SALARIO_BRUTO;
+};
 
 // MARK: COTIZACIONES
 
 const calcularCotizaciones = (salarioBruto) => {
-
-	const CONTINGENCIAS_COMUNES = salarioBruto * PORCENTAJE_COTIZACION.CONTINGENCIAS_COMUNES;
-	const MECANISMO_EQUIDAD_INTERGENERACIONAL = salarioBruto * PORCENTAJE_COTIZACION.MECANISMO_EQUIDAD_INTERGENERACIONAL;
-	const FORMACION_PROFESIONAL = salarioBruto * PORCENTAJE_COTIZACION.FORMACION_PROFESIONAL;
-	const DESEMPLEO = salarioBruto * PORCENTAJE_COTIZACION.DESEMPLEO;
-
-	const TOTAL =
-		CONTINGENCIAS_COMUNES +
-		MECANISMO_EQUIDAD_INTERGENERACIONAL +
-		FORMACION_PROFESIONAL +
-		DESEMPLEO;
-
-	return {
-		CONTINGENCIAS_COMUNES,
-		MECANISMO_EQUIDAD_INTERGENERACIONAL,
-		FORMACION_PROFESIONAL,
-		DESEMPLEO,
-		TOTAL
+	const COTIZACION = {
+		CONTINGENCIAS_COMUNES: roundTwo(salarioBruto * PORCENTAJE_COTIZACION.CONTINGENCIAS_COMUNES),
+		MECANISMO_EQUIDAD_INTERGENERACIONAL: roundTwo(salarioBruto * PORCENTAJE_COTIZACION.MECANISMO_EQUIDAD_INTERGENERACIONAL),
+		FORMACION_PROFESIONAL: roundTwo(salarioBruto * PORCENTAJE_COTIZACION.FORMACION_PROFESIONAL),
+		DESEMPLEO: roundTwo(salarioBruto * PORCENTAJE_COTIZACION.DESEMPLEO),
+		total() {
+			return this.CONTINGENCIAS_COMUNES +
+				this.MECANISMO_EQUIDAD_INTERGENERACIONAL +
+				this.FORMACION_PROFESIONAL +
+				this.DESEMPLEO;
+		}
 	};
+
+	return COTIZACION;
 }
 
 // MARK: NOMINA
 
 const calcularNomina = () => {
-
 	const SALARIO_BRUTO = calcularSalarioBruto();
+	const COTIZACION = calcularCotizaciones(SALARIO_BRUTO.total());
+	const SALARIO_NETO = roundTwo(SALARIO_BRUTO.total() - COTIZACION.total());
 
-	const COTIZACION = calcularCotizaciones(SALARIO_BRUTO.SALARIO_BRUTO);
-
-	const SALARIO_NETO = SALARIO_BRUTO.SALARIO_BRUTO - COTIZACION.TOTAL;
+	const fmt = (n) => roundTwo(n).toFixed(2);
 
 	OUTPUT.innerHTML =
 		`
-			<h2>Horas laborales: ${SALARIO_BRUTO.HORAS_LABORALES} €.</h2>
+			<h2>Horas laborales: ${fmt(SALARIO_BRUTO.HORAS_LABORALES)} €.</h2>
 
 			<h2>Pluses:</h2>
 
-			<p>-Nocturnidad: ${SALARIO_BRUTO.SALARIO_NOCTURNIDAD} €.</p>
-			<p>-Afluencia: ${SALARIO_BRUTO.SALARIO_AFLUENCIA} €.</p>
-			<p>-Festivos: ${SALARIO_BRUTO.SALARIO_FESTIVO} €.</p>
-			<p>-Festivos especiales: ${SALARIO_BRUTO.SALARIO_FESTIVO_ESPECIAL} €.</p>
+			<p>-Nocturnidad: ${fmt(SALARIO_BRUTO.NOCTURNIDAD)} €.</p>
+			<p>-Afluencia: ${fmt(SALARIO_BRUTO.AFLUENCIA)} €.</p>
+			<p>-Festivos: ${fmt(SALARIO_BRUTO.FESTIVO)} €.</p>
+			<p>-Festivos especiales: ${fmt(SALARIO_BRUTO.FESTIVO_ESPECIAL)} €.</p>
 
 			<h2>Otros conceptos:</h2>
 
-			<p>-Coaching: ${SALARIO_BRUTO.SALARIO_COACHING} €.</p>
-			<p>-Formación: ${SALARIO_BRUTO.SALARIO_FORMACION} €.</p>
-			<p>-Eventos: ${SALARIO_BRUTO.SALARIO_EVENTO} €.</p>
-			<p>-Vacaciones: ${SALARIO_BRUTO.SALARIO_VACACIONES} €.</p>
-			<p>-Ajustes salariales: ${SALARIO_BRUTO.SALARIO_AJUSTES} €.</p>
+			<p>-Coaching: ${fmt(SALARIO_BRUTO.COACHING)} €.</p>
+			<p>-Formación: ${fmt(SALARIO_BRUTO.FORMACION)} €.</p>
+			<p>-Eventos: ${fmt(SALARIO_BRUTO.EVENTO)} €.</p>
+			<p>-Vacaciones: ${fmt(SALARIO_BRUTO.VACACIONES)} €.</p>
+			<p>-Ajustes salariales: ${fmt(SALARIO_BRUTO.AJUSTES)} €.</p>
 
-			<h2>Salario bruto: ${SALARIO_BRUTO.SALARIO_BRUTO} €.</h2>
+			<h2>Salario bruto: ${fmt(SALARIO_BRUTO.total())} €.</h2>
 
 			<h2>Cotizaciones:</h2>
 
-			<p>-Contingencias comunes: -${COTIZACION.CONTINGENCIAS_COMUNES} €.</p>
-			<p>-Mecanismo de equidad intergeneracional: -${COTIZACION.MECANISMO_EQUIDAD_INTERGENERACIONAL} €.</p>
-			<p>-Formación profesional: -${COTIZACION.FORMACION_PROFESIONAL} €.</p>
-			<p>-Desempleo: -${COTIZACION.DESEMPLEO} €.</p>
+			<p>-Contingencias comunes: -${fmt(COTIZACION.CONTINGENCIAS_COMUNES)} €.</p>
+			<p>-Mecanismo de equidad intergeneracional: -${fmt(COTIZACION.MECANISMO_EQUIDAD_INTERGENERACIONAL)} €.</p>
+			<p>-Formación profesional: -${fmt(COTIZACION.FORMACION_PROFESIONAL)} €.</p>
+			<p>-Desempleo: -${fmt(COTIZACION.DESEMPLEO)} €.</p>
 
-			<h2>Deducciones: -${COTIZACION.TOTAL} €.</h2>
+			<h2>Deducciones: -${fmt(COTIZACION.total())} €.</h2>
 
-			<h2>Salario neto: ${SALARIO_NETO} €.</h2>
+			<h2>Salario neto: ${fmt(SALARIO_NETO)} €.</h2>
 		`;
-}
+};
 
 FORM.onsubmit = () => calcularNomina();
