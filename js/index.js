@@ -1,9 +1,6 @@
 const PRECIO_HORA = 10.85;
 
 const FORM = document.querySelector('form');
-const OUTPUT = FORM.querySelector('output');
-
-const roundTwo = (num) => Number((num || 0).toFixed(2));
 
 const createNomina = () => ({
 
@@ -40,6 +37,8 @@ const createNomina = () => ({
 	EVENTO: Number(document.getElementById('evento').value),
 	FORMACION: Number(document.getElementById('formacion').value),
 	AJUSTES: Number(document.getElementById('ajustes').value),
+
+	OUTPUT: document.querySelector('output'),
 
 	SALARIO_BRUTO: {
 		COACHING: 0,
@@ -113,19 +112,60 @@ const createNomina = () => ({
 	},
 
 	calcularCotizaciones() {
-		this.COTIZACION.CONTINGENCIAS_COMUNES = this.COTIZACION.PORCENTAJE.CONTINGENCIAS_COMUNES * this.SALARIO_BRUTO.TOTAL;
-		this.COTIZACION.MECANISMO_EQUIDAD_INTERGENERACIONAL = this.COTIZACION.PORCENTAJE.MECANISMO_EQUIDAD_INTERGENERACIONAL * this.SALARIO_BRUTO.TOTAL;
-		this.COTIZACION.FORMACION_PROFESIONAL = this.COTIZACION.PORCENTAJE.FORMACION_PROFESIONAL * this.SALARIO_BRUTO.TOTAL;
-		this.COTIZACION.DESEMPLEO = this.COTIZACION.PORCENTAJE.DESEMPLEO * this.SALARIO_BRUTO.TOTAL;
+		this.COTIZACION.CONTINGENCIAS_COMUNES = this.fmt(this.COTIZACION.PORCENTAJE.CONTINGENCIAS_COMUNES * this.SALARIO_BRUTO.TOTAL);
+		this.COTIZACION.MECANISMO_EQUIDAD_INTERGENERACIONAL = this.fmt(this.COTIZACION.PORCENTAJE.MECANISMO_EQUIDAD_INTERGENERACIONAL * this.SALARIO_BRUTO.TOTAL);
+		this.COTIZACION.FORMACION_PROFESIONAL = this.fmt(this.COTIZACION.PORCENTAJE.FORMACION_PROFESIONAL * this.SALARIO_BRUTO.TOTAL);
+		this.COTIZACION.DESEMPLEO = this.fmt(this.COTIZACION.PORCENTAJE.DESEMPLEO * this.SALARIO_BRUTO.TOTAL);
 		this.COTIZACION.TOTAL =
-			this.COTIZACION.CONTINGENCIAS_COMUNES +
-			this.COTIZACION.MECANISMO_EQUIDAD_INTERGENERACIONAL +
-			this.COTIZACION.FORMACION_PROFESIONAL +
-			this.COTIZACION.DESEMPLEO;
+			this.fmt(
+				this.COTIZACION.CONTINGENCIAS_COMUNES +
+				this.COTIZACION.MECANISMO_EQUIDAD_INTERGENERACIONAL +
+				this.COTIZACION.FORMACION_PROFESIONAL +
+				this.COTIZACION.DESEMPLEO
+			);
 	},
 
 	calcularSalarioNeto() {
 		this.SALARIO_NETO = this.SALARIO_BRUTO.TOTAL - this.COTIZACION.TOTAL;
+	},
+
+	fmt(number) {
+		return Number(number.toFixed(2));
+	},
+
+	imprimir() {
+		this.OUTPUT.innerHTML =
+			`
+			<h2>Horas laborales: ${this.SALARIO_BRUTO.HORAS_LABORALES} €.</h2>
+
+			<h2>Pluses:</h2>
+
+			<p>-Nocturnidad: ${this.SALARIO_BRUTO.NOCTURNIDAD} €.</p>
+			<p>-Afluencia: ${this.SALARIO_BRUTO.AFLUENCIA} €.</p>
+			<p>-Festivos: ${this.SALARIO_BRUTO.FESTIVO} €.</p>
+			<p>-Festivos especiales: ${this.SALARIO_BRUTO.FESTIVO_ESPECIAL} €.</p>
+
+			<h2>Otros conceptos:</h2>
+
+			<p>-Coaching: ${this.SALARIO_BRUTO.COACHING} €.</p>
+			<p>-Formación: ${this.SALARIO_BRUTO.FORMACION} €.</p>
+			<p>-Eventos: ${this.SALARIO_BRUTO.EVENTO} €.</p>
+			<p>-Vacaciones: ${this.SALARIO_BRUTO.VACACIONES} €.</p>
+			<p>-Ajustes salariales: ${this.SALARIO_BRUTO.AJUSTES} €.</p>
+
+			<h2>Salario bruto: ${this.SALARIO_BRUTO.TOTAL} €.</h2>
+
+			<h2>Cotizaciones:</h2>
+
+			<p>-Contingencias comunes: -${this.COTIZACION.CONTINGENCIAS_COMUNES} €.</p>
+			<p>-Mecanismo de equidad intergeneracional: -${this.COTIZACION.MECANISMO_EQUIDAD_INTERGENERACIONAL} €.</p>
+			<p>-Formación profesional: -${this.COTIZACION.FORMACION_PROFESIONAL} €.</p>
+			<p>-Desempleo: -${this.COTIZACION.DESEMPLEO} €.</p>
+
+			<h2>Deducciones: -${this.COTIZACION.TOTAL} €.</h2>
+
+			<h2>Salario neto: ${this.SALARIO_NETO} €.</h2>
+		`;
 	},
 
 	calcular() {
@@ -133,49 +173,13 @@ const createNomina = () => ({
 		this.calcularSalarioBruto();
 		this.calcularCotizaciones();
 		this.calcularSalarioNeto();
+		this.imprimir();
 	}
 });
-
-// MARK: NOMINA
 
 const calcularNomina = () => {
 	const Nomina = createNomina();
 	Nomina.calcular();
-
-	const fmt = (n) => roundTwo(n).toFixed(2);
-
-	OUTPUT.innerHTML =
-		`
-			<h2>Horas laborales: ${fmt(Nomina.SALARIO_BRUTO.HORAS_LABORALES)} €.</h2>
-
-			<h2>Pluses:</h2>
-
-			<p>-Nocturnidad: ${fmt(Nomina.SALARIO_BRUTO.NOCTURNIDAD)} €.</p>
-			<p>-Afluencia: ${fmt(Nomina.SALARIO_BRUTO.AFLUENCIA)} €.</p>
-			<p>-Festivos: ${fmt(Nomina.SALARIO_BRUTO.FESTIVO)} €.</p>
-			<p>-Festivos especiales: ${fmt(Nomina.SALARIO_BRUTO.FESTIVO_ESPECIAL)} €.</p>
-
-			<h2>Otros conceptos:</h2>
-
-			<p>-Coaching: ${fmt(Nomina.SALARIO_BRUTO.COACHING)} €.</p>
-			<p>-Formación: ${fmt(Nomina.SALARIO_BRUTO.FORMACION)} €.</p>
-			<p>-Eventos: ${fmt(Nomina.SALARIO_BRUTO.EVENTO)} €.</p>
-			<p>-Vacaciones: ${fmt(Nomina.SALARIO_BRUTO.VACACIONES)} €.</p>
-			<p>-Ajustes salariales: ${fmt(Nomina.SALARIO_BRUTO.AJUSTES)} €.</p>
-
-			<h2>Salario bruto: ${fmt(Nomina.SALARIO_BRUTO.TOTAL)} €.</h2>
-
-			<h2>Cotizaciones:</h2>
-
-			<p>-Contingencias comunes: -${fmt(Nomina.COTIZACION.CONTINGENCIAS_COMUNES)} €.</p>
-			<p>-Mecanismo de equidad intergeneracional: -${fmt(Nomina.COTIZACION.MECANISMO_EQUIDAD_INTERGENERACIONAL)} €.</p>
-			<p>-Formación profesional: -${fmt(Nomina.COTIZACION.FORMACION_PROFESIONAL)} €.</p>
-			<p>-Desempleo: -${fmt(Nomina.COTIZACION.DESEMPLEO)} €.</p>
-
-			<h2>Deducciones: -${fmt(Nomina.COTIZACION.TOTAL)} €.</h2>
-
-			<h2>Salario neto: ${fmt(Nomina.SALARIO_NETO)} €.</h2>
-		`;
 };
 
 FORM.onsubmit = () => calcularNomina();
