@@ -33,7 +33,7 @@ const Nomina = () => ({
 		FORMACION: Number(document.getElementById('formacion').value),
 	},
 
-	AJUSTES_SALARIALES: Number(document.getElementById('ajustes').value),
+	AJUSTES: Number(document.getElementById('ajustes').value),
 
 	OUTPUT: document.querySelector('output'),
 
@@ -84,7 +84,7 @@ const Nomina = () => ({
 		this.SALARIO_BRUTO.COACHING = this.PRECIO_HORA;
 		this.SALARIO_BRUTO.FORMACION = this.HORAS.FORMACION * this.PRECIO_HORA;
 		this.SALARIO_BRUTO.EVENTO = this.HORAS.EVENTO * this.PRECIO_HORA + this.PLUS.EVENTO * this.HORAS.EVENTO;
-		this.SALARIO_BRUTO.AJUSTES = this.AJUSTES_SALARIALES;
+		this.SALARIO_BRUTO.AJUSTES = this.AJUSTES;
 		this.SALARIO_BRUTO.NOCTURNIDAD =
 			this.TURNOS.OCHO_HORAS * this.PLUS.NOCTURNIDAD * 0.75 +
 			this.TURNOS.OCHO_Y_CUARTO_HORAS * this.PLUS.NOCTURNIDAD;
