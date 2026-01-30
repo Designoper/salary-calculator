@@ -1,5 +1,3 @@
-const PRECIO_HORA = 10.85;
-
 const FORM = document.querySelector('form');
 
 const createNomina = () => ({
@@ -23,10 +21,10 @@ const createNomina = () => ({
 	},
 
 	PLUS: {
-		FESTIVO: PRECIO_HORA * 0.25,
-		FESTIVO_ESPECIAL: PRECIO_HORA * 0.75,
-		NOCTURNIDAD: PRECIO_HORA * 0.25,
-		AFLUENCIA: PRECIO_HORA * 0.5,
+		FESTIVO: 0,
+		FESTIVO_ESPECIAL: 0,
+		NOCTURNIDAD: 0,
+		AFLUENCIA: 0,
 		EVENTO: 3
 	},
 
@@ -69,6 +67,13 @@ const createNomina = () => ({
 	},
 
 	SALARIO_NETO: 0,
+
+	asignarPlus() {
+		this.PLUS.FESTIVO = this.PRECIO_HORA * 0.25;
+		this.PLUS.FESTIVO_ESPECIAL = this.PRECIO_HORA * 0.75;
+		this.PLUS.NOCTURNIDAD = this.PRECIO_HORA * 0.25;
+		this.PLUS.AFLUENCIA = this.PRECIO_HORA * 0.5;
+	},
 
 	calcularVacaciones() {
 		this.VACACIONES.TOTAL = this.VACACIONES.DIAS === 0
@@ -169,6 +174,7 @@ const createNomina = () => ({
 	},
 
 	calcular() {
+		this.asignarPlus();
 		this.calcularVacaciones();
 		this.calcularSalarioBruto();
 		this.calcularCotizaciones();
