@@ -1,89 +1,84 @@
-const Nomina = () => ({
-	PRECIO_HORA: 10.85,
+class Nomina {
+	static PRECIO_HORA = 10.85;
 
-	TURNOS: {
-		CUATRO_HORAS: Number(document.getElementById('4-horas').value),
-		CINCO_HORAS: Number(document.getElementById('5-horas').value),
-		SEIS_Y_MEDIA_HORAS: Number(document.getElementById('6.5-horas').value),
-		SIETE_HORAS: Number(document.getElementById('7-horas').value),
-		OCHO_HORAS: Number(document.getElementById('8-horas').value),
-		OCHO_Y_CUARTO_HORAS: Number(document.getElementById('8.25-horas').value),
-	},
+	constructor() {
 
-	VACACIONES: {
-		DIAS: Number(document.getElementById('vacaciones').value),
-		HORAS_SEMANA: Number(document.getElementById('horas-semana').value),
-		DIAS_SEMANA: 7,
-		TOTAL: 0
-	},
+		this.TURNOS = {
+			CUATRO_HORAS: Number(document.getElementById('4-horas').value),
+			CINCO_HORAS: Number(document.getElementById('5-horas').value),
+			SEIS_Y_MEDIA_HORAS: Number(document.getElementById('6.5-horas').value),
+			SIETE_HORAS: Number(document.getElementById('7-horas').value),
+			OCHO_HORAS: Number(document.getElementById('8-horas').value),
+			OCHO_Y_CUARTO_HORAS: Number(document.getElementById('8.25-horas').value),
+		};
 
-	PLUS: {
-		FESTIVO: 0,
-		FESTIVO_ESPECIAL: 0,
-		NOCTURNIDAD: 0,
-		AFLUENCIA: 0,
-		EVENTO: 3
-	},
+		this.VACACIONES = {
+			DIAS: Number(document.getElementById('vacaciones').value),
+			HORAS_SEMANA: Number(document.getElementById('horas-semana').value),
+			DIAS_SEMANA: 7,
+			TOTAL: 0
+		};
 
-	HORAS: {
-		FESTIVO: Number(document.getElementById('festivo').value),
-		FESTIVO_ESPECIAL: Number(document.getElementById('festivo-especial').value),
-		AFLUENCIA: Number(document.getElementById('plus-afluencia').value),
-		EVENTO: Number(document.getElementById('evento').value),
-		FORMACION: Number(document.getElementById('formacion').value),
-	},
+		this.PLUS = {
+			FESTIVO: Nomina.PRECIO_HORA * 0.25,
+			FESTIVO_ESPECIAL: Nomina.PRECIO_HORA * 0.75,
+			NOCTURNIDAD: Nomina.PRECIO_HORA * 0.25,
+			AFLUENCIA: Nomina.PRECIO_HORA * 0.5,
+			EVENTO: 3
+		};
 
-	AJUSTES: Number(document.getElementById('ajustes').value),
+		this.HORAS = {
+			FESTIVO: Number(document.getElementById('festivo').value),
+			FESTIVO_ESPECIAL: Number(document.getElementById('festivo-especial').value),
+			AFLUENCIA: Number(document.getElementById('plus-afluencia').value),
+			EVENTO: Number(document.getElementById('evento').value),
+			FORMACION: Number(document.getElementById('formacion').value),
+		};
 
-	OUTPUT: document.querySelector('output'),
+		this.AJUSTES = Number(document.getElementById('ajustes').value);
 
-	SALARIO_BRUTO: {
-		COACHING: 0,
-		FORMACION: 0,
-		EVENTO: 0,
-		AJUSTES: 0,
-		NOCTURNIDAD: 0,
-		AFLUENCIA: 0,
-		FESTIVO: 0,
-		FESTIVO_ESPECIAL: 0,
-		VACACIONES: 0,
-		HORAS_LABORALES: 0,
-		TOTAL: 0,
-	},
+		this.OUTPUT = document.querySelector('output');
 
-	COTIZACION: {
-		PORCENTAJE: {
-			CONTINGENCIAS_COMUNES: 0.047,
-			MECANISMO_EQUIDAD_INTERGENERACIONAL: 0.0013,
-			FORMACION_PROFESIONAL: 0.001,
-			DESEMPLEO: 0.0155
-		},
-		CONTINGENCIAS_COMUNES: 0,
-		MECANISMO_EQUIDAD_INTERGENERACIONAL: 0,
-		FORMACION_PROFESIONAL: 0,
-		DESEMPLEO: 0,
-		TOTAL: 0,
-	},
+		this.SALARIO_BRUTO = {
+			COACHING: Nomina.PRECIO_HORA,
+			FORMACION: 0,
+			EVENTO: 0,
+			AJUSTES: 0,
+			NOCTURNIDAD: 0,
+			AFLUENCIA: 0,
+			FESTIVO: 0,
+			FESTIVO_ESPECIAL: 0,
+			VACACIONES: 0,
+			HORAS_LABORALES: 0,
+			TOTAL: 0,
+		};
 
-	SALARIO_NETO: 0,
+		this.COTIZACION = {
+			PORCENTAJE: {
+				CONTINGENCIAS_COMUNES: 0.047,
+				MECANISMO_EQUIDAD_INTERGENERACIONAL: 0.0013,
+				FORMACION_PROFESIONAL: 0.001,
+				DESEMPLEO: 0.0155
+			},
+			CONTINGENCIAS_COMUNES: 0,
+			MECANISMO_EQUIDAD_INTERGENERACIONAL: 0,
+			FORMACION_PROFESIONAL: 0,
+			DESEMPLEO: 0,
+			TOTAL: 0,
+		};
 
-	asignarPlus() {
-		this.PLUS.FESTIVO = this.PRECIO_HORA * 0.25;
-		this.PLUS.FESTIVO_ESPECIAL = this.PRECIO_HORA * 0.75;
-		this.PLUS.NOCTURNIDAD = this.PRECIO_HORA * 0.25;
-		this.PLUS.AFLUENCIA = this.PRECIO_HORA * 0.5;
-	},
+		this.SALARIO_NETO = 0;
+	}
 
 	calcularVacaciones() {
 		this.VACACIONES.TOTAL = this.VACACIONES.DIAS === 0
 			? this.VACACIONES.TOTAL = 0
-			: this.VACACIONES.TOTAL = this.VACACIONES.HORAS_SEMANA / this.VACACIONES.DIAS_SEMANA * this.VACACIONES.DIAS * this.PRECIO_HORA;
-	},
+			: this.VACACIONES.TOTAL = this.VACACIONES.HORAS_SEMANA / this.VACACIONES.DIAS_SEMANA * this.VACACIONES.DIAS * Nomina.PRECIO_HORA;
+	}
 
 	calcularSalarioBruto() {
-		this.SALARIO_BRUTO.COACHING = this.PRECIO_HORA;
-		this.SALARIO_BRUTO.FORMACION = this.HORAS.FORMACION * this.PRECIO_HORA;
-		this.SALARIO_BRUTO.EVENTO = this.HORAS.EVENTO * this.PRECIO_HORA + this.PLUS.EVENTO * this.HORAS.EVENTO;
+		this.SALARIO_BRUTO.FORMACION = this.HORAS.FORMACION * Nomina.PRECIO_HORA;
+		this.SALARIO_BRUTO.EVENTO = this.HORAS.EVENTO * Nomina.PRECIO_HORA + this.PLUS.EVENTO * this.HORAS.EVENTO;
 		this.SALARIO_BRUTO.AJUSTES = this.AJUSTES;
 		this.SALARIO_BRUTO.NOCTURNIDAD =
 			this.TURNOS.OCHO_HORAS * this.PLUS.NOCTURNIDAD * 0.75 +
@@ -100,7 +95,7 @@ const Nomina = () => ({
 				this.TURNOS.SIETE_HORAS * 7 +
 				this.TURNOS.OCHO_HORAS * 8 +
 				this.TURNOS.OCHO_Y_CUARTO_HORAS * 8.25
-			) * this.PRECIO_HORA;
+			) * Nomina.PRECIO_HORA;
 
 		this.SALARIO_BRUTO.TOTAL =
 			this.SALARIO_BRUTO.COACHING +
@@ -113,7 +108,7 @@ const Nomina = () => ({
 			this.SALARIO_BRUTO.FESTIVO_ESPECIAL +
 			this.SALARIO_BRUTO.VACACIONES +
 			this.SALARIO_BRUTO.HORAS_LABORALES;
-	},
+	}
 
 	calcularCotizaciones() {
 		this.COTIZACION.CONTINGENCIAS_COMUNES = this.fmt(this.COTIZACION.PORCENTAJE.CONTINGENCIAS_COMUNES * this.SALARIO_BRUTO.TOTAL);
@@ -127,15 +122,15 @@ const Nomina = () => ({
 				this.COTIZACION.FORMACION_PROFESIONAL +
 				this.COTIZACION.DESEMPLEO
 			);
-	},
+	}
 
 	calcularSalarioNeto() {
 		this.SALARIO_NETO = this.SALARIO_BRUTO.TOTAL - this.COTIZACION.TOTAL;
-	},
+	}
 
 	fmt(number) {
 		return Number(number.toFixed(2));
-	},
+	}
 
 	imprimir() {
 		this.OUTPUT.innerHTML =
@@ -170,20 +165,19 @@ const Nomina = () => ({
 
 			<h2>Salario neto: ${this.SALARIO_NETO} €.</h2>
 		`;
-	},
+	}
 
 	calcular() {
-		this.asignarPlus();
 		this.calcularVacaciones();
 		this.calcularSalarioBruto();
 		this.calcularCotizaciones();
 		this.calcularSalarioNeto();
 		this.imprimir();
 	}
-});
+}
 
 const calcularNomina = () => {
-	const nomina = Nomina();
+	const nomina = new Nomina();
 	nomina.calcular();
 };
 
