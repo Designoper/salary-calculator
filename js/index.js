@@ -35,15 +35,11 @@ class Nomina {
 			FORMACION: Number(document.getElementById('formacion').value),
 		};
 
-		this.AJUSTES = Number(document.getElementById('ajustes').value);
-
-		this.OUTPUT = document.querySelector('output');
-
 		this.SALARIO_BRUTO = {
 			COACHING: Nomina.PRECIO_HORA,
-			FORMACION: 0,
-			EVENTO: 0,
-			AJUSTES: 0,
+			FORMACION: Nomina.PRECIO_HORA * this.HORAS.FORMACION,
+			EVENTO: this.HORAS.EVENTO * Nomina.PRECIO_HORA + this.PLUS.EVENTO * this.HORAS.EVENTO,
+			AJUSTES: Number(document.getElementById('ajustes').value),
 			NOCTURNIDAD: 0,
 			AFLUENCIA: 0,
 			FESTIVO: 0,
@@ -68,18 +64,16 @@ class Nomina {
 		};
 
 		this.SALARIO_NETO = 0;
+
+		this.OUTPUT = document.querySelector('output');
 	}
 
 	calcularVacaciones() {
-		this.VACACIONES.TOTAL = this.VACACIONES.DIAS === 0
-			? this.VACACIONES.TOTAL = 0
-			: this.VACACIONES.TOTAL = this.VACACIONES.HORAS_SEMANA / this.VACACIONES.DIAS_SEMANA * this.VACACIONES.DIAS * Nomina.PRECIO_HORA;
+		if (this.VACACIONES.DIAS === 0) return;
+		this.VACACIONES.TOTAL = this.VACACIONES.HORAS_SEMANA / this.VACACIONES.DIAS_SEMANA * this.VACACIONES.DIAS * Nomina.PRECIO_HORA;
 	}
 
 	calcularSalarioBruto() {
-		this.SALARIO_BRUTO.FORMACION = this.HORAS.FORMACION * Nomina.PRECIO_HORA;
-		this.SALARIO_BRUTO.EVENTO = this.HORAS.EVENTO * Nomina.PRECIO_HORA + this.PLUS.EVENTO * this.HORAS.EVENTO;
-		this.SALARIO_BRUTO.AJUSTES = this.AJUSTES;
 		this.SALARIO_BRUTO.NOCTURNIDAD =
 			this.TURNOS.OCHO_HORAS * this.PLUS.NOCTURNIDAD * 0.75 +
 			this.TURNOS.OCHO_Y_CUARTO_HORAS * this.PLUS.NOCTURNIDAD;
