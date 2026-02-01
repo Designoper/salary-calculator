@@ -80,6 +80,10 @@ class Nomina {
 		this.SALARIO_NETO = 0;
 	}
 
+	fmt(number) {
+		return Number(number.toFixed(2));
+	}
+
 	calcularTotal(obj) {
 		const total = Object.keys(obj)
 			.filter(key => key !== 'TOTAL')
@@ -102,10 +106,6 @@ class Nomina {
 
 	calcularSalarioNeto() {
 		this.SALARIO_NETO = this.SALARIO_BRUTO.TOTAL - this.COTIZACION.TOTAL;
-	}
-
-	fmt(number) {
-		return Number(number.toFixed(2));
 	}
 
 	imprimir() {
