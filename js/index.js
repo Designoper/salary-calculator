@@ -125,7 +125,7 @@ class Nomina {
 			<p>-Vacaciones: ${this.SALARIO_BRUTO.VACACIONES} €.</p>
 			<p>-Ajustes salariales: ${this.SALARIO_BRUTO.AJUSTES} €.</p>
 
-			<h2>Salario bruto: ${this.SALARIO_BRUTO.TOTAL} €.</h2>
+			<h2>Total Salario bruto: ${this.SALARIO_BRUTO.TOTAL} €.</h2>
 
 			<h2>Cotizaciones:</h2>
 
@@ -134,7 +134,7 @@ class Nomina {
 			<p>-Formación profesional: -${this.COTIZACION.FORMACION_PROFESIONAL} €.</p>
 			<p>-Desempleo: -${this.COTIZACION.DESEMPLEO} €.</p>
 
-			<h2>Deducciones: -${this.COTIZACION.TOTAL} €.</h2>
+			<h2>Total Deducciones: -${this.COTIZACION.TOTAL} €.</h2>
 
 			<h2>Salario neto: ${this.SALARIO_NETO} €.</h2>
 		`;
