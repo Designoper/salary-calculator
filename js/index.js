@@ -1,6 +1,5 @@
 class Nomina {
 	constructor() {
-
 		this.FIXED_VALUES = {
 			PRECIO_HORA: 10.85,
 			VACACIONES: {
@@ -86,7 +85,7 @@ class Nomina {
 
 	calcularTotal(obj) {
 		const total = Object.keys(obj)
-			.filter(key => key !== 'TOTAL')
+			// .filter(key => key !== 'TOTAL')
 			.reduce((sum, key) => sum + obj[key], 0);
 		obj.TOTAL = this.fmt(total);
 	}
@@ -151,10 +150,5 @@ class Nomina {
 	}
 }
 
-const calcularNomina = () => {
-	const nomina = new Nomina();
-	nomina.calcular();
-};
-
 const FORM = document.querySelector('form');
-FORM.onsubmit = () => calcularNomina();
+FORM.onsubmit = () => new Nomina().calcular();
