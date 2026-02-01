@@ -42,7 +42,7 @@ class Nomina {
 				FORMACION: Number(document.getElementById('formacion').value),
 			},
 			AJUSTES: Number(document.getElementById('ajustes').value),
-			OUTPUT: document.querySelector('output')
+			OUTPUT: document.querySelector('output'),
 		};
 
 		this.SALARIO_BRUTO = {
@@ -84,7 +84,6 @@ class Nomina {
 		const total = Object.keys(obj)
 			.filter(key => key !== 'TOTAL')
 			.reduce((sum, key) => sum + obj[key], 0);
-		delete obj.TOTAL;
 		obj.TOTAL = this.fmt(total);
 	}
 
