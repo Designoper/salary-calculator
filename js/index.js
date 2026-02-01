@@ -1,76 +1,101 @@
 class Nomina {
-	static PRECIO_HORA = 10.85;
-
+	// static test = {
+	// 	CONTINGENCIAS_COMUNES: 0.047,
+	// 	MECANISMO_EQUIDAD_INTERGENERACIONAL: 0.0013,
+	// 	FORMACION_PROFESIONAL: 0.001,
+	// 	DESEMPLEO: 0.0155
+	// }
 	constructor() {
 
-		this.TURNOS = {
-			CUATRO_HORAS: Number(document.getElementById('4-horas').value),
-			CINCO_HORAS: Number(document.getElementById('5-horas').value),
-			SEIS_Y_MEDIA_HORAS: Number(document.getElementById('6.5-horas').value),
-			SIETE_HORAS: Number(document.getElementById('7-horas').value),
-			OCHO_HORAS: Number(document.getElementById('8-horas').value),
-			OCHO_Y_CUARTO_HORAS: Number(document.getElementById('8.25-horas').value),
-		};
-
-		this.VACACIONES = {
-			DIAS: Number(document.getElementById('vacaciones').value),
-			HORAS_SEMANA: Number(document.getElementById('horas-semana').value),
-			DIAS_SEMANA: 7,
-			TOTAL: 0
-		};
-
-		this.PLUS = {
-			FESTIVO: Nomina.PRECIO_HORA * 0.25,
-			FESTIVO_ESPECIAL: Nomina.PRECIO_HORA * 0.75,
-			NOCTURNIDAD: Nomina.PRECIO_HORA * 0.25,
-			AFLUENCIA: Nomina.PRECIO_HORA * 0.5,
-			EVENTO: 3
-		};
-
-		this.HORAS = {
-			FESTIVO: Number(document.getElementById('festivo').value),
-			FESTIVO_ESPECIAL: Number(document.getElementById('festivo-especial').value),
-			AFLUENCIA: Number(document.getElementById('plus-afluencia').value),
-			EVENTO: Number(document.getElementById('evento').value),
-			FORMACION: Number(document.getElementById('formacion').value),
-		};
-
-		this.SALARIO_BRUTO = {
-			COACHING: Nomina.PRECIO_HORA,
-			FORMACION: Nomina.PRECIO_HORA * this.HORAS.FORMACION,
-			EVENTO: this.HORAS.EVENTO * Nomina.PRECIO_HORA + this.PLUS.EVENTO * this.HORAS.EVENTO,
-			AJUSTES: Number(document.getElementById('ajustes').value),
-			NOCTURNIDAD: 0,
-			AFLUENCIA: 0,
-			FESTIVO: 0,
-			FESTIVO_ESPECIAL: 0,
-			VACACIONES: 0,
-			HORAS_LABORALES: 0,
-			TOTAL: 0,
-		};
-
-		this.COTIZACION = {
-			PORCENTAJE: {
+		this.FIXED_VALUES = {
+			PRECIO_HORA: 10.85,
+			VACACIONES: {
+				DIAS_SEMANA: 7
+			},
+			COTIZACION: {
 				CONTINGENCIAS_COMUNES: 0.047,
 				MECANISMO_EQUIDAD_INTERGENERACIONAL: 0.0013,
 				FORMACION_PROFESIONAL: 0.001,
 				DESEMPLEO: 0.0155
 			},
-			CONTINGENCIAS_COMUNES: 0,
+			PLUS: {
+				FESTIVO: this.PRECIO_HORA * 0.25,
+				FESTIVO_ESPECIAL: this.PRECIO_HORA * 0.75,
+				NOCTURNIDAD: this.PRECIO_HORA * 0.25,
+				AFLUENCIA: this.PRECIO_HORA * 0.5,
+				EVENTO: 3
+			},
+		}
+
+		this.USER_INPUT = {
+			VACACIONES: {
+				DIAS: Number(document.getElementById('vacaciones').value),
+				HORAS_SEMANA: Number(document.getElementById('horas-semana').value),
+			},
+			TURNOS: {
+				CUATRO_HORAS: Number(document.getElementById('4-horas').value),
+				CINCO_HORAS: Number(document.getElementById('5-horas').value),
+				SEIS_Y_MEDIA_HORAS: Number(document.getElementById('6.5-horas').value),
+				SIETE_HORAS: Number(document.getElementById('7-horas').value),
+				OCHO_HORAS: Number(document.getElementById('8-horas').value),
+				OCHO_Y_CUARTO_HORAS: Number(document.getElementById('8.25-horas').value),
+			},
+			HORAS: {
+				FESTIVO: Number(document.getElementById('festivo').value),
+				FESTIVO_ESPECIAL: Number(document.getElementById('festivo-especial').value),
+				AFLUENCIA: Number(document.getElementById('plus-afluencia').value),
+				EVENTO: Number(document.getElementById('evento').value),
+				FORMACION: Number(document.getElementById('formacion').value),
+			},
+			AJUSTES: Number(document.getElementById('ajustes').value),
+
+		};
+
+		// this.PLUS = {
+		// 	FESTIVO: this.PRECIO_HORA * 0.25,
+		// 	FESTIVO_ESPECIAL: this.PRECIO_HORA * 0.75,
+		// 	NOCTURNIDAD: this.PRECIO_HORA * 0.25,
+		// 	AFLUENCIA: this.PRECIO_HORA * 0.5,
+		// 	EVENTO: 3
+		// };
+
+		this.SALARIO_BRUTO = {
+			COACHING: this.FIXED_VALUES.PRECIO_HORA,
+			FORMACION: this.FIXED_VALUES.PRECIO_HORA * this.HORAS.FORMACION,
+			EVENTO:  this.USER_INPUT.HORAS.EVENTO * (this.FIXED_VALUES.PRECIO_HORA + this.USER_INPUT.PLUS.EVENTO),
+			AJUSTES: this.USER_INPUT.AJUSTES,
+			NOCTURNIDAD: 0,
+			AFLUENCIA: 0,
+			FESTIVO: 0,
+			FESTIVO_ESPECIAL: this.USER_INPUT.HORAS.FESTIVO_ESPECIAL * this.PLUS.FESTIVO_ESPECIAL,
+			VACACIONES: this.USER_INPUT.VACACIONES.HORAS_SEMANA / this.FIXED_VALUES.VACACIONES.DIAS_SEMANA * this.USER_INPUT.VACACIONES.DIAS * this.FIXED_VALUES.PRECIO_HORA,
+			HORAS_LABORALES: 0,
+			TOTAL: 0,
+
+			get TOTAL() {
+				return Object.keys(this)
+					.filter(key => key !== 'TOTAL')
+					.reduce((sum, key) => sum + this[key], 0);
+			}
+		};
+
+		this.COTIZACION = {
+			CONTINGENCIAS_COMUNES: this.SALARIO_BRUTO.TOTAL * this.FIXED_VALUES.COTIZACION.CONTINGENCIAS_COMUNES,
 			MECANISMO_EQUIDAD_INTERGENERACIONAL: 0,
 			FORMACION_PROFESIONAL: 0,
 			DESEMPLEO: 0,
 			TOTAL: 0,
+
+			get TOTAL() {
+				return Object.keys(this)
+					.filter(key => key !== 'TOTAL')
+					.reduce((sum, key) => sum + this[key], 0);
+			}
 		};
 
 		this.SALARIO_NETO = 0;
 
 		this.OUTPUT = document.querySelector('output');
-	}
-
-	calcularVacaciones() {
-		if (this.VACACIONES.DIAS === 0) return;
-		this.VACACIONES.TOTAL = this.VACACIONES.HORAS_SEMANA / this.VACACIONES.DIAS_SEMANA * this.VACACIONES.DIAS * Nomina.PRECIO_HORA;
 	}
 
 	calcularSalarioBruto() {
@@ -79,8 +104,6 @@ class Nomina {
 			this.TURNOS.OCHO_Y_CUARTO_HORAS * this.PLUS.NOCTURNIDAD;
 		this.SALARIO_BRUTO.AFLUENCIA = this.HORAS.AFLUENCIA * this.PLUS.AFLUENCIA;
 		this.SALARIO_BRUTO.FESTIVO = this.PLUS.FESTIVO * this.HORAS.FESTIVO;
-		this.SALARIO_BRUTO.FESTIVO_ESPECIAL = this.PLUS.FESTIVO_ESPECIAL * this.HORAS.FESTIVO_ESPECIAL;
-		this.SALARIO_BRUTO.VACACIONES = this.VACACIONES.TOTAL;
 		this.SALARIO_BRUTO.HORAS_LABORALES =
 			(
 				this.TURNOS.CUATRO_HORAS * 4 +
@@ -89,7 +112,7 @@ class Nomina {
 				this.TURNOS.SIETE_HORAS * 7 +
 				this.TURNOS.OCHO_HORAS * 8 +
 				this.TURNOS.OCHO_Y_CUARTO_HORAS * 8.25
-			) * Nomina.PRECIO_HORA;
+			) * this.PRECIO_HORA;
 
 		this.SALARIO_BRUTO.TOTAL =
 			this.SALARIO_BRUTO.COACHING +
@@ -162,7 +185,6 @@ class Nomina {
 	}
 
 	calcular() {
-		this.calcularVacaciones();
 		this.calcularSalarioBruto();
 		this.calcularCotizaciones();
 		this.calcularSalarioNeto();
