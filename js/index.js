@@ -90,7 +90,7 @@ class Nomina {
 
 	calcularTotal(obj) {
 		const total = Object.keys(obj)
-			// .filter(key => key !== 'TOTAL')
+			.filter(key => key !== 'TOTAL')
 			.reduce((sum, key) => sum + obj[key], 0);
 		obj.TOTAL = this.fmt(total);
 	}
@@ -113,37 +113,36 @@ class Nomina {
 	}
 
 	imprimir() {
-		this.FORM_ELEMENTS.OUTPUT.innerHTML =
-			`
-			<h2>Horas laborales: ${this.numberToEuro(this.SALARIO_BRUTO.HORAS_LABORALES)}.</h2>
+		this.FORM_ELEMENTS.OUTPUT.innerHTML = `
+			<h2>Horas laborales: <span class="ingresos">${this.numberToEuro(this.SALARIO_BRUTO.HORAS_LABORALES)}.</span></h2>
 
 			<h2>Pluses:</h2>
 
-			<p>-Nocturnidad: ${this.numberToEuro(this.SALARIO_BRUTO.NOCTURNIDAD)}.</p>
-			<p>-Afluencia: ${this.numberToEuro(this.SALARIO_BRUTO.AFLUENCIA)}.</p>
-			<p>-Festivos: ${this.numberToEuro(this.SALARIO_BRUTO.FESTIVO)}.</p>
-			<p>-Festivos especiales: ${this.numberToEuro(this.SALARIO_BRUTO.FESTIVO_ESPECIAL)}.</p>
+			<p>-Nocturnidad: <span class="ingresos">${this.numberToEuro(this.SALARIO_BRUTO.NOCTURNIDAD)}.</span></p>
+			<p>-Afluencia: <span class="ingresos">${this.numberToEuro(this.SALARIO_BRUTO.AFLUENCIA)}.</span></p>
+			<p>-Festivos: <span class="ingresos">${this.numberToEuro(this.SALARIO_BRUTO.FESTIVO)}.</span></p>
+			<p>-Festivos especiales: <span class="ingresos">${this.numberToEuro(this.SALARIO_BRUTO.FESTIVO_ESPECIAL)}.</span></p>
 
 			<h2>Otros conceptos:</h2>
 
-			<p>-Coaching: ${this.numberToEuro(this.SALARIO_BRUTO.COACHING)}.</p>
-			<p>-Formación: ${this.numberToEuro(this.SALARIO_BRUTO.FORMACION)}.</p>
-			<p>-Eventos: ${this.numberToEuro(this.SALARIO_BRUTO.EVENTO)}.</p>
-			<p>-Vacaciones: ${this.numberToEuro(this.SALARIO_BRUTO.VACACIONES)}.</p>
-			<p>-Ajustes salariales: ${this.numberToEuro(this.SALARIO_BRUTO.AJUSTES)}.</p>
+			<p>-Coaching: <span class="ingresos">${this.numberToEuro(this.SALARIO_BRUTO.COACHING)}.</span></p>
+			<p>-Formación: <span class="ingresos">${this.numberToEuro(this.SALARIO_BRUTO.FORMACION)}.</span></p>
+			<p>-Eventos: <span class="ingresos">${this.numberToEuro(this.SALARIO_BRUTO.EVENTO)}.</span></p>
+			<p>-Vacaciones: <span class="ingresos">${this.numberToEuro(this.SALARIO_BRUTO.VACACIONES)}.</span></p>
+			<p>-Ajustes salariales: <span class="ingresos">${this.numberToEuro(this.SALARIO_BRUTO.AJUSTES)}.</span></p>
 
-			<h2>Total Salario bruto: ${this.numberToEuro(this.SALARIO_BRUTO.TOTAL)}.</h2>
+			<h2>Total Salario bruto: <span class="ingresos">${this.numberToEuro(this.SALARIO_BRUTO.TOTAL)}.</span></h2>
 
 			<h2>Cotizaciones:</h2>
 
-			<p>-Contingencias comunes: -${this.numberToEuro(this.COTIZACION.CONTINGENCIAS_COMUNES)}.</p>
-			<p>-Mecanismo de equidad intergeneracional: -${this.numberToEuro(this.COTIZACION.MECANISMO_EQUIDAD_INTERGENERACIONAL)}.</p>
-			<p>-Formación profesional: -${this.numberToEuro(this.COTIZACION.FORMACION_PROFESIONAL)}.</p>
-			<p>-Desempleo: -${this.numberToEuro(this.COTIZACION.DESEMPLEO)}.</p>
+			<p>-Contingencias comunes: <span class="perdidas">-${this.numberToEuro(this.COTIZACION.CONTINGENCIAS_COMUNES)}.</span></p>
+			<p>-Mecanismo de equidad intergeneracional: <span class="perdidas">-${this.numberToEuro(this.COTIZACION.MECANISMO_EQUIDAD_INTERGENERACIONAL)}.</span></p>
+			<p>-Formación profesional: <span class="perdidas">-${this.numberToEuro(this.COTIZACION.FORMACION_PROFESIONAL)}.</span></p>
+			<p>-Desempleo: <span class="perdidas">-${this.numberToEuro(this.COTIZACION.DESEMPLEO)}.</span></p>
 
-			<h2>Total Deducciones: -${this.numberToEuro(this.COTIZACION.TOTAL)}.</h2>
+			<h2>Total Deducciones: <span class="perdidas">-${this.numberToEuro(this.COTIZACION.TOTAL)}.</span></h2>
 
-			<h2>Salario neto: ${this.numberToEuro(this.SALARIO_NETO)}.</h2>
+			<h2>Salario neto: <span class="ingresos">${this.numberToEuro(this.SALARIO_NETO)}.</span></h2>
 		`;
 	}
 
