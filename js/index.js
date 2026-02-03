@@ -81,6 +81,13 @@ class Nomina {
 		return Number(number.toFixed(2));
 	}
 
+	numberToEuro(num) {
+		return new Intl.NumberFormat('es-ES', {
+			style: 'currency',
+			currency: 'EUR'
+		}).format(num);
+	}
+
 	calcularTotal(obj) {
 		const total = Object.keys(obj)
 			// .filter(key => key !== 'TOTAL')
@@ -108,35 +115,35 @@ class Nomina {
 	imprimir() {
 		this.FORM_ELEMENTS.OUTPUT.innerHTML =
 			`
-			<h2>Horas laborales: ${this.SALARIO_BRUTO.HORAS_LABORALES} €.</h2>
+			<h2>Horas laborales: ${this.numberToEuro(this.SALARIO_BRUTO.HORAS_LABORALES)}.</h2>
 
 			<h2>Pluses:</h2>
 
-			<p>-Nocturnidad: ${this.SALARIO_BRUTO.NOCTURNIDAD} €.</p>
-			<p>-Afluencia: ${this.SALARIO_BRUTO.AFLUENCIA} €.</p>
-			<p>-Festivos: ${this.SALARIO_BRUTO.FESTIVO} €.</p>
-			<p>-Festivos especiales: ${this.SALARIO_BRUTO.FESTIVO_ESPECIAL} €.</p>
+			<p>-Nocturnidad: ${this.numberToEuro(this.SALARIO_BRUTO.NOCTURNIDAD)}.</p>
+			<p>-Afluencia: ${this.numberToEuro(this.SALARIO_BRUTO.AFLUENCIA)}.</p>
+			<p>-Festivos: ${this.numberToEuro(this.SALARIO_BRUTO.FESTIVO)}.</p>
+			<p>-Festivos especiales: ${this.numberToEuro(this.SALARIO_BRUTO.FESTIVO_ESPECIAL)}.</p>
 
 			<h2>Otros conceptos:</h2>
 
-			<p>-Coaching: ${this.SALARIO_BRUTO.COACHING} €.</p>
-			<p>-Formación: ${this.SALARIO_BRUTO.FORMACION} €.</p>
-			<p>-Eventos: ${this.SALARIO_BRUTO.EVENTO} €.</p>
-			<p>-Vacaciones: ${this.SALARIO_BRUTO.VACACIONES} €.</p>
-			<p>-Ajustes salariales: ${this.SALARIO_BRUTO.AJUSTES} €.</p>
+			<p>-Coaching: ${this.numberToEuro(this.SALARIO_BRUTO.COACHING)}.</p>
+			<p>-Formación: ${this.numberToEuro(this.SALARIO_BRUTO.FORMACION)}.</p>
+			<p>-Eventos: ${this.numberToEuro(this.SALARIO_BRUTO.EVENTO)}.</p>
+			<p>-Vacaciones: ${this.numberToEuro(this.SALARIO_BRUTO.VACACIONES)}.</p>
+			<p>-Ajustes salariales: ${this.numberToEuro(this.SALARIO_BRUTO.AJUSTES)}.</p>
 
-			<h2>Total Salario bruto: ${this.SALARIO_BRUTO.TOTAL} €.</h2>
+			<h2>Total Salario bruto: ${this.numberToEuro(this.SALARIO_BRUTO.TOTAL)}.</h2>
 
 			<h2>Cotizaciones:</h2>
 
-			<p>-Contingencias comunes: -${this.COTIZACION.CONTINGENCIAS_COMUNES} €.</p>
-			<p>-Mecanismo de equidad intergeneracional: -${this.COTIZACION.MECANISMO_EQUIDAD_INTERGENERACIONAL} €.</p>
-			<p>-Formación profesional: -${this.COTIZACION.FORMACION_PROFESIONAL} €.</p>
-			<p>-Desempleo: -${this.COTIZACION.DESEMPLEO} €.</p>
+			<p>-Contingencias comunes: -${this.numberToEuro(this.COTIZACION.CONTINGENCIAS_COMUNES)}.</p>
+			<p>-Mecanismo de equidad intergeneracional: -${this.numberToEuro(this.COTIZACION.MECANISMO_EQUIDAD_INTERGENERACIONAL)}.</p>
+			<p>-Formación profesional: -${this.numberToEuro(this.COTIZACION.FORMACION_PROFESIONAL)}.</p>
+			<p>-Desempleo: -${this.numberToEuro(this.COTIZACION.DESEMPLEO)}.</p>
 
-			<h2>Total Deducciones: -${this.COTIZACION.TOTAL} €.</h2>
+			<h2>Total Deducciones: -${this.numberToEuro(this.COTIZACION.TOTAL)}.</h2>
 
-			<h2>Salario neto: ${this.SALARIO_NETO} €.</h2>
+			<h2>Salario neto: ${this.numberToEuro(this.SALARIO_NETO)}.</h2>
 		`;
 	}
 
